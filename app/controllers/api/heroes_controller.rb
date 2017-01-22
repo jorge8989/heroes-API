@@ -4,18 +4,18 @@ class Api::HeroesController < ApplicationController
   def index
     @heroes = Hero.all
 
-    render json: @heroes
+    render json: {data: @heroes.select(:id, :name)}
   end
 
   def show
-    render json: @hero
+    render json: {data: @hero}
   end
 
   def create
     @hero = Hero.new(hero_params)
 
     if @hero.save
-      render json: @hero, status: :created, location: @hero
+      render json: {data: @hero}, status: :created
     else
       render json: @hero.errors, status: :unprocessable_entity
     end
@@ -23,7 +23,7 @@ class Api::HeroesController < ApplicationController
 
   def update
     if @hero.update(hero_params)
-      render json: @hero
+      render json: {data: @hero}
     else
       render json: @hero.errors, status: :unprocessable_entity
     end
